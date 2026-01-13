@@ -1,6 +1,8 @@
 const form = document.getElementById('userForm');
 const list = document.getElementById('userList');
 
+const API_BASE = 'http://localhost:3000';
+
 /* =========================
    CREATE
 ========================= */
@@ -9,7 +11,7 @@ form.addEventListener('submit', async e => {
 
   const data = Object.fromEntries(new FormData(form));
 
-  await fetch('/api/users', {
+  await fetch(`${API_BASE}/api/users`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -23,7 +25,8 @@ form.addEventListener('submit', async e => {
    READ
 ========================= */
 async function loadUsers() {
-  const users = await fetch('/api/users').then(r => r.json());
+  const res = await fetch(`${API_BASE}/api/users`);
+  const users = await res.json();
 
   list.innerHTML = '';
 
@@ -44,7 +47,7 @@ async function loadUsers() {
    DELETE
 ========================= */
 async function deleteUser(id) {
-  await fetch(`/api/users/${id}`, {
+  await fetch(`${API_BASE}/api/users/${id}`, {
     method: 'DELETE'
   });
 
